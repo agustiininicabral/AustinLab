@@ -17,10 +17,9 @@ class PageParser(HTMLParser):
         self.placeholder_links: list[str] = []
         self.form_controls: list[tuple[str, str]] = []
         self.label_targets: set[str] = set()
-        self.nested_label_depth = 0
-        self.current_label_has_text = False
         self.current_link_href = ""
         self.current_link_text = ""
+        self.in_link = False
         self.current_h1_depth = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
@@ -37,12 +36,11 @@ class PageParser(HTMLParser):
         elif tag == "a":
             self.current_link_href = (values.get("href") or "").strip()
             self.current_link_text = ""
+            self.in_link = True
         elif tag == "label":
             target = (values.get("for") or "").strip()
             if target:
                 self.label_targets.add(target)
-            self.nested_label_depth += 1
-            self.current_label_has_text = False
         elif tag in {"input", "select", "textarea"}:
             if tag == "input" and (values.get("type") or "").lower() in {"hidden", "submit", "button", "reset"}:
                 return
@@ -60,13 +58,12 @@ class PageParser(HTMLParser):
                 self.placeholder_links.append(self.current_link_href or "(href missing)")
             self.current_link_href = ""
             self.current_link_text = ""
-        elif tag == "label" and self.nested_label_depth:
-            self.nested_label_depth -= 1
+            self.in_link = False
 
     def handle_data(self, data: str) -> None:
         if self.in_title:
             self.title_text += data
-        if self.current_link_href is not None:
+        if self.in_link:
             self.current_link_text += data
 
 
