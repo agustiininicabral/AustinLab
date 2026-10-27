@@ -54,7 +54,8 @@ class PageParser(HTMLParser):
         elif tag == "a":
             if not self.current_link_text.strip():
                 self.empty_links.append(self.current_link_href or "(href missing)")
-            if self.current_link_href in {"", "#", "javascript:void(0)"}:
+            normalized_href = self.current_link_href.strip().lower()
+            if normalized_href in {"", "#", "javascript:void(0)"}:
                 self.placeholder_links.append(self.current_link_href or "(href missing)")
             self.current_link_href = ""
             self.current_link_text = ""
