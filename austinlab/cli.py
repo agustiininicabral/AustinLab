@@ -43,7 +43,7 @@ def main() -> int:
 
     try:
         report = audit_file(args.input)
-    except (FileNotFoundError, ValueError, UnicodeDecodeError) as error:
+    except (OSError, ValueError) as error:
         parser.error(str(error))
 
     output_dir = Path(args.out)
