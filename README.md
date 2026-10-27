@@ -57,6 +57,7 @@ The tool reads local files only. It does not visit URLs, execute JavaScript, sub
 - `austinlab/cli.py`: command-line interface and report writers.
 - `examples/sample_page.html`: deliberately imperfect fixture for a visible demo.
 - `tests/`: deterministic unit and CLI tests.
+- `docs/rules.md`: rule IDs, severity, remediation and known limitations.
 - `.github/workflows/ci.yml`: automated quality checks.
 
 ## License
