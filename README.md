@@ -22,12 +22,14 @@ This is a lightweight static audit, not a substitute for a browser-based accessi
 
 ```powershell
 py -3.12 -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+.\.venv\Scripts\python.exe -m pip install -e . -r requirements-dev.txt
 ```
 
-Save a webpage as HTML, then run:
+Save a webpage as HTML, then run either the installed command or the Python module:
 
 ```powershell
+austinlab audit --input examples/sample_page.html --out outputs
+# Alternative:
 .\.venv\Scripts\python.exe -m austinlab audit --input examples/sample_page.html --out outputs
 ```
 
@@ -45,7 +47,7 @@ The command exits with code 1 when error-severity findings are present, code 0 w
 .\.venv\Scripts\python.exe -m ruff check austinlab tests
 ```
 
-GitHub Actions runs these checks on pushes and pull requests.
+GitHub Actions runs package installation, Ruff linting, the test suite, the demo audit, and report-file checks on pushes and pull requests.
 
 ## Scope and safety
 
