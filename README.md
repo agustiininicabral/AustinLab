@@ -41,8 +41,8 @@ The command exits with code 1 when error-severity findings are present, code 0 w
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m ruff format austinlab tests
 .\.venv\Scripts\python.exe -m ruff check austinlab tests
-.\.venv\Scripts\python.exe -m ruff format --check austinlab tests
 ```
 
 GitHub Actions runs these checks on pushes and pull requests.
